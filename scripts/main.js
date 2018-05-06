@@ -1,30 +1,78 @@
-var myImage = document.querySelector('img');
+// setup canvas
 
-myImage.onclick = function() {
-    var mySrc = myImage.getAttribute('src');
-    if (mySrc === 'images/firefox-icon.png') {
-        myImage.setAttribute('src', 'images/firefox2.png');
-    } else {
-        myImage.setAttribute('src', 'images/firefox-icon.png');
+var canvas = document.querySelector('canvas');
+var ctx = canvas.getContext('2d');
+
+var width = canvas.width = window.innerWidth;
+var height = canvas.height = window.innerHeight;
+
+// function to generate random number
+
+function random(min,max) {
+    var num = Math.floor(Math.random() * (max - min)) + min;
+    return num;
+}
+
+function Ball(x, y, velX, velY, color, size) {
+    this.x = x;
+    this.y = y;
+    this.velX = velX;
+    this.velY = velY;
+    this.color = color;
+    this.size = size;
+}
+
+Ball.prototype.draw = function() {
+    ctx.beginPath();
+    ctx.fillStyle = this.color;
+    ctx.arc(this.x, this.y, this.size, 0, 2 * Math.PI);
+    ctx.fill();
+}
+
+Ball.prototype.update = function() {
+    if ((this.x + this.size) >= width) {
+        this.velX = -(this.velX);
     }
-};
 
-var myButton = document.querySelector('button');
-var myHeading = document.querySelector('h1');
+    if ((this.x - this.size) <= 0) {
+        this.velX = -(this.velX);
+    }
 
-function setUserName() {
-    var myName = prompt('Please enter your name.');
-    localStorage.setItem('name', myName);
-    myHeading.innerHTML = 'Mazilla is cool, ' + myName;
+    if ((this.y + this.size) >= height) {
+        this.velY = -(this.velY);
+    }
+
+    if ((this.y - this.size) <= 0) {
+        this.velY = -(this.velY);
+    }
+
+    this.x += this.velX;
+    this.y += this.velY;
 }
 
-if(!localStorage.getItem('name')) {
-    setUserName();
-} else {
-    var storedName = localStorage.getItem('name');
-    myHeading.innerHTML = 'Mozilla is cool, ' + storedName;
+var balls = [];
+
+function loop() {
+    ctx.fillRect = (0, 0, width, height);
+
+    while (balls.length < 25) {
+        var ball = new Ball(
+            random(0, width),
+            random(0, height),
+            random(-7, 7),
+            random(-7, 7),
+            'rgba(' + random(0, 255) + ',' + random(0, 255) + ',' + random(0, 255) + ')',
+            random(10, 20)
+        );
+        balls.push(ball);
+    }
+
+    for (var i = 0; i < balls.length; i++) {
+        balls[i].draw();
+        balls[i].update();
+    }
+
+    requestAnimationFrame(loop);
 }
 
-myButton.onclick = function() {
-    setUserName();
-};
+loop();
