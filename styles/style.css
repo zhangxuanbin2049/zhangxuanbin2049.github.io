@@ -1,34 +1,25 @@
+html, body {
+    margin: 0;
+}
+
 html {
-    background-color: #00539F;
-    font-size: 10px;
-    font-family: "Open Sans",sans-serif;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    height: 100%;
 }
 
 body {
-    width: 600px;
-    margin: 0 auto;
-    background-color: #FF9500;
-    padding: 0 20px 20px 20px;
-    border: 5px solid black;
+    overflow: hidden;
+    height: inherit;
 }
 
 h1 {
-    font-size: 60px;
-    text-align: center;
-
+    font-size: 2rem;
+    letter-spacing: -1px;
+    position: absolute;
     margin: 0;
-    padding: 20px 0;
-    color: #00539F;
-    text-shadow: 3px 3px 1px black;
-}
+    top: -4px;
+    right: 5px;
 
-p, li {
-    font-size: 16px;
-    line-height: 2;
-    letter-spacing: 1px;
-}
-
-img {
-    display: block;
-    margin: 0 auto;
+    color: transparent;
+    text-shadow: 0 0 4px white;
 }
